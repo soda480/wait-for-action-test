@@ -1,15 +1,21 @@
 on: push
 jobs:
-  deploy:
-    runs-on: self-hosted
-    # runs-on: ubuntu-latest
+  deploy-windows:
+    runs-on: Windows
     steps:
+    - name: Task1
+      shell: cmd
+      run: |
+        echo "executing task1"
+        timeout 30
     - name: Wait for a Message
-      uses: soda480/wait-for-message-action@main
+      uses: soda480/wait-for-message-action@wait-composite
       with:
         command: wait
-        port: 45678
+        port: 8080
         message: "ready to proceed"
-        timeout: 30
-    - name: Continue
-      run: echo "Continue running..."
+        timeout: 120
+    - name: Task2
+      run: |
+        echo "executing task2" |
+        timeout 30
