@@ -4,7 +4,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Wait for a Message
-      uses: soda480/wait-for-message-action@master
+      uses: soda480/wait-for-message-action@main
       with:
         action: wait
         port: 45678
