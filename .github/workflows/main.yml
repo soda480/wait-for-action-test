@@ -17,5 +17,5 @@ jobs:
         timeout: 120
     - name: Task2
       run: |
-        echo "executing task2" |
+        echo "executing task2"
         timeout 30
