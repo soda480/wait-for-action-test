@@ -8,5 +8,5 @@ jobs:
       with:
         command: wait
         port: 45678
-        message: 'ready to proceed'
+        message: "ready to proceed"
         timeout: 60
