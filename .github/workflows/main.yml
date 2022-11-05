@@ -5,9 +5,7 @@ jobs:
     steps:
     - name: Task1
       shell: cmd
-      run: |
-        echo "executing task1"
-        timeout 30
+      run: timeout 30
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@wait-composite
       with:
@@ -16,6 +14,4 @@ jobs:
         message: "ready to proceed"
         timeout: 120
     - name: Task2
-      run: |
-        echo "executing task2"
-        timeout 30
+      run: timeout 30
