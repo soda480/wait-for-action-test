@@ -1,0 +1,11 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Wait for a Message
+      uses: soda480/wait-for-message-action@master
+      with:
+        action: wait
+        port: 45678
+        message: 'ready to proceed'
+        timeout: 60
