@@ -6,9 +6,7 @@ jobs:
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@main
       with:
-        command: send
-        ip: 192.168.1.199
+        command: wait
         port: 45678
         message: "ready to proceed"
-        delay: 30
-        attempts: 2 
+        timeout: 30
