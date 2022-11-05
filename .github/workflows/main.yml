@@ -1,7 +1,8 @@
 on: push
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
     steps:
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@main
@@ -9,4 +10,4 @@ jobs:
         command: wait
         port: 45678
         message: "ready to proceed"
-        timeout: 30
+        timeout: 120
