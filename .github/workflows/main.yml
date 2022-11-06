@@ -3,10 +3,9 @@ jobs:
   deploy-windows:
     runs-on: Windows
     steps:
-    - name: Task1
-      uses: juliangruber/sleep-action@v1
-      with:
-        time: 30s
+    - name: Task1 - Sleep for 30 seconds
+      run: Start-Sleep -s 30
+      shell: powershell
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@wait-composite
       with:
@@ -14,7 +13,6 @@ jobs:
         port: 8080
         message: "ready to proceed"
         timeout: 120
-    - name: Task2
-      uses: juliangruber/sleep-action@v1
-      with:
-        time: 30s
+    - name: Task2 - Sleep for 30 seconds
+      run: Start-Sleep -s 30
+      shell: powershell
