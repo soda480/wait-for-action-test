@@ -25,7 +25,7 @@ jobs:
                 python -c "import socket;print(f'ip_address={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
 
     windows-workfow:
-        runs-on: Windows
+        runs-on: windows-latest
         needs: get-linux-ip-address
         steps:
             - name: Echo Linux IP
@@ -33,7 +33,7 @@ jobs:
                 echo ${{ needs.get-linux-ip-address.outputs.ip-address }}
 
     linux-workflow:
-        runs-on: Linux
+        runs-on: ubuntu-20.04
         needs: get-windows-ip-address
         steps:
             - name: Echo Windows IP
