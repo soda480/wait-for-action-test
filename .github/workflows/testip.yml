@@ -2,7 +2,7 @@ name: test-with-output
 on: push
 jobs:
     get_windows_ip:
-        runs-on: Windows # windows-latest
+        runs-on: Windows
         outputs:
             windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
         steps:
@@ -12,7 +12,7 @@ jobs:
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" 
     get_linux_ip:
-        runs-on: Linux # ubuntu-20.04
+        runs-on: Linux
         outputs:
             linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
         steps:
@@ -22,14 +22,14 @@ jobs:
                 python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
                 python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" 
     windows_workflow:
-        runs-on: Windows # windows-latest
+        runs-on: Windows
         needs: get_linux_ip
         steps:
             - name: Echo Linux IP
               run:
                 echo "${{ needs.get_linux_ip.outputs.linux_ip }}"
     linux_workflow:
-        runs-on: Linux # ubuntu-20.04
+        runs-on: Linux
         needs: get_windows_ip
         steps:
             - name: Echo Windows IP
