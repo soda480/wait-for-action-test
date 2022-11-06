@@ -5,25 +5,26 @@ jobs:
     get-windows-ip-address:
         runs-on: windows-latest
         outputs:
-            windows-ip-address: ${{ steps.windows-ip-address.outputs.ip_address }}
+            windows-ip-address: ${{ steps.windows-ip-address.outputs.ip_address1 }}
         steps:
             - name: Get Windows IP address
               id: windows-ip-address
               shell: cmd
               run: |
-                python -c "import socket;print(f'ip_address={socket.gethostbyname(socket.gethostname())}')"
-                python -c "import socket;print(f'ip_address={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+                python -c "import socket;print(f'ip_address1={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+                type $GITHUB_OUTPUT
 
     get-linux-ip-address:
         runs-on: ubuntu-20.04
         outputs:
-            linux-ip-address: ${{ steps.linux-ip-address.outputs.ip_address }}
+            linux-ip-address: ${{ steps.linux-ip-address.outputs.ip_address2 }}
         steps:
             - name: Get Linux IP address
               id: linux-ip-address
               shell: bash
               run:
-                python -c "import socket;print(f'ip_address={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+                python -c "import socket;print(f'ip_address2={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+                cat $GITHUB_OUTPUT
 
     windows-workfow:
         runs-on: windows-latest
