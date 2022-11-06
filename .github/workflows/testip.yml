@@ -1,45 +1,47 @@
 name: test-with-output
 on: push
 jobs:
-    get_windows_ip:
-        runs-on: Windows
-        outputs:
-            windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
-        steps:
-            - name: Get Windows IP
-              id: get_ip
-              run: |
-                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> windows_ip_address.txt
-            - uses: actions/upload-artifact@v3
-              with:
-                name: windows_ip_address_file
-                path: windows_ip_address.txt
-    get_linux_ip:
-        runs-on: Linux
-        outputs:
-            linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
-        steps:
-            - name: Get Linux IP
-              id: get_ip
-              run: |
-                python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
-    windows_workflow:
-        runs-on: Windows
-        needs: get_linux_ip
-        steps:
-            - name: Echo Linux IP
-              run:
-                echo "${{ needs.get_linux_ip.outputs.linux_ip }}"
-    linux_workflow:
-        runs-on: Linux
-        needs: get_windows_ip
-        steps:
-            - uses: actions/download-artifact@v3
-              with:
-                name: windows_ip_address_file
-            - name: Read Windows IP
-              id: read_ip_address
-              run: |
-                cat windows_ip_address.txt >> $GITHUB_OUTPUT
-            - name: Echo Windows IP
-              run: echo ${{ steps.read_ip_address.outputs.windows_ip }}
+  get_windows_ip:
+    runs-on: Windows
+    outputs:
+      windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
+    steps:
+      - name: Get Windows IP
+        id: get_ip
+        run: |
+          python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> windows_ip_address.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows_ip_address_file
+          path: windows_ip_address.txt
+  get_linux_ip:
+    runs-on: Linux
+    outputs:
+      linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
+    steps:
+      - name: Get Linux IP
+        id: get_ip
+        run: |
+          python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+  windows_workflow:
+    name: Windows Workflow
+    runs-on: Windows
+    needs: get_linux_ip
+    steps:
+      - name: Echo Linux IP
+        run:
+          echo "${{ needs.get_linux_ip.outputs.linux_ip }}"
+  linux_workflow:
+    name: Linux Workflow
+    runs-on: Linux
+    needs: get_windows_ip
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: windows_ip_address_file
+      - name: Read Windows IP
+        id: read_ip_address
+        run: |
+          cat windows_ip_address.txt >> $GITHUB_OUTPUT
+      - name: Echo Windows IP
+        run: echo ${{ steps.read_ip_address.outputs.windows_ip }}
