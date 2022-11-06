@@ -8,7 +8,6 @@ jobs:
         steps:
             - name: Get Windows IP
               id: get_ip
-              # shell: pwsh
               run: |
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> windows_ip_address.txt
             - uses: actions/upload-artifact@v2
@@ -40,10 +39,7 @@ jobs:
                 name: windows_ip_address_file
             - name: Read Windows IP
               id: read_ip_address
-              # shell: bash
               run: |
-                cat windows_ip_address.txt
                 cat windows_ip_address.txt >> $GITHUB_OUTPUT
             - name: Echo Windows IP
-              # shell: bash
               run: echo ${{ steps.read_ip_address.outputs.windows_ip }}
