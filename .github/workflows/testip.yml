@@ -37,6 +37,7 @@ jobs:
       uses: soda480/wait-for-message-action@wait-composite
       with:
         port: 8080
+        timeout: 120
         message: "Linux server is ready"
         shell: cmd
 
@@ -88,6 +89,8 @@ jobs:
       with:
         ip: ${{ steps.read_ip_address.outputs.windows_ip }}
         port: 8080
+        delay: 10
+        attempts: 10
         message: "Linux server is ready"
         shell: bash
 
