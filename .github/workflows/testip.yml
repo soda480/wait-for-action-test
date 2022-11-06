@@ -10,8 +10,11 @@ jobs:
               id: get_ip
               shell: pwsh
               run: |
-                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> %GITHUB_OUTPUT%
-                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" 
+                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> windows_ip_address.txt
+            - uses: actions/upload-artifact@v2
+              with:
+                name: windows_ip_address_file
+                path: windows_ip_address.txt
     get_linux_ip:
         runs-on: Linux
         outputs:
@@ -21,7 +24,6 @@ jobs:
               id: get_ip
               run: |
                 python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
-                python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" 
     windows_workflow:
         runs-on: Windows
         needs: get_linux_ip
@@ -33,6 +35,15 @@ jobs:
         runs-on: Linux
         needs: get_windows_ip
         steps:
+            - uses: actions/download-artifact@v2
+              with:
+                name: windows_ip_address_file
+            - name: Read Windows IP
+              id: read_ip_address
+              shell: bash
+              run: |
+                cat windows_ip_address.txt
+                cat windows_ip_address.txt >> $GITHUB_OUTPUT
             - name: Echo Windows IP
-              run: 
-                echo "${{ needs.get_windows_ip.outputs.windows_ip }}"
+              shell: bash
+              run: echo ${{ steps.read_ip_address.outputs.windows_ip }}
