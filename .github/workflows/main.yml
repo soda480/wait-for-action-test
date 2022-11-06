@@ -13,6 +13,7 @@ jobs:
         port: 8080
         message: "ready to proceed"
         timeout: 120
+        shell: cmd
     - name: Task2 - Sleep for 30 seconds
       run: Start-Sleep -s 30
       shell: powershell
