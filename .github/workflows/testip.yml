@@ -96,22 +96,24 @@ jobs:
         message: "Linux server is ready"
         shell: bash
 
-  # wait_windows_ready:
-  #   name: Linux - Wait Windows Ready
-  #   runs-on: Linux
-  #   needs: send_linux_ready
-  #   - name: Wait for Windows server to be ready message
-  #     uses: soda480/wait-for-message-action@wait-composite
-  #     with:
-  #       port: 8080
-  #       message: "Windows server is ready"
-  #       shell: bash
+  wait_windows_ready:
+    name: Wait Windows Ready
+    runs-on: Linux
+    needs: send_linux_ready
+    steps:
+    - name: Wait for Windows server to be ready message
+      uses: soda480/wait-for-message-action@wait-composite
+      with:
+        port: 8080
+        timeout: 120
+        message: "Windows server is ready"
+        shell: bash
 
-  # run_tests:
-  #   name: Linux - Run Tests
-  #   runs-on: Linux
-  #   needs: wait_windows_ready
-  #   steps:
-  #   - name: Run Tests Task
-  #     run: sleep 10
-  #     shell: bash
+  run_tests:
+    name: Run Tests
+    runs-on: Linux
+    needs: wait_windows_ready
+    steps:
+    - name: Run Tests Task
+      run: sleep 10
+      shell: bash
