@@ -10,7 +10,7 @@ jobs:
               id: get_ip
               run: |
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> windows_ip_address.txt
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v3
               with:
                 name: windows_ip_address_file
                 path: windows_ip_address.txt
@@ -34,7 +34,7 @@ jobs:
         runs-on: Linux
         needs: get_windows_ip
         steps:
-            - uses: actions/download-artifact@v2
+            - uses: actions/download-artifact@v3
               with:
                 name: windows_ip_address_file
             - name: Read Windows IP
