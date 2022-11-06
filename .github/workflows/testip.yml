@@ -59,7 +59,7 @@ jobs:
   linux_send_linux_ready:
     name: Send Linux Ready
     runs-on: Linux
-    needs: [get_windows_ip, linux_build_app]
+    needs: [windows_get_windows_ip, linux_build_app]
     steps:
       - uses: actions/download-artifact@v3
         with:
