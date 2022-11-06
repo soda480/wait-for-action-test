@@ -3,7 +3,7 @@ on: push
 jobs:
 
   get_windows_ip:
-    name: Windows - Get Windows IP
+    name: Get Windows IP
     runs-on: Windows
     outputs:
       windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
@@ -18,7 +18,7 @@ jobs:
         path: windows_ip_address.txt
 
   get_linux_ip:
-    name: Linux - Get Linux IP
+    name: Get Linux IP
     runs-on: Linux
     outputs:
       linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
@@ -29,7 +29,7 @@ jobs:
         python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
 
   wait_linux_ready:
-    name: Windows - Wait Linux Ready
+    name: Wait Linux Ready
     runs-on: Windows
     needs: get_linux_ip
     steps:
@@ -42,7 +42,7 @@ jobs:
         shell: cmd
 
   install_app:
-    name: Windows - Install App
+    name: Install App
     runs-on: Windows
     needs: wait_linux_ready
     steps:
@@ -50,21 +50,23 @@ jobs:
       run: Start-Sleep -s 30
       shell: powershell
 
-  # send_windows_ready:
-  #   name: Windows - Send Windows Ready
-  #   runs-on: Windows
-  #   needs: [get_linux_ip, install_app]
-  #   steps:
-  #   - name: Send Windows server is ready message
-  #     uses: soda480/wait-for-message-action@send-composite
-  #     with:
-  #       ip: ${{ needs.get_linux_ip.outputs.linux_ip }}
-  #       port: 8080
-  #       message: "Windows server is ready"
-  #       shell: cmd
+  send_windows_ready:
+    name: Send Windows Ready
+    runs-on: Windows
+    needs: [get_linux_ip, install_app]
+    steps:
+    - name: Send Windows server is ready message
+      uses: soda480/wait-for-message-action@send-composite
+      with:
+        ip: ${{ needs.get_linux_ip.outputs.linux_ip }}
+        port: 8080
+        delay: 5
+        attempts: 12
+        message: "Windows server is ready"
+        shell: cmd
 
   build_app:
-    name: Linux - Build App
+    name: Build App
     runs-on: Linux
     needs: get_windows_ip
     steps:
@@ -73,7 +75,7 @@ jobs:
       shell: bash
 
   send_linux_ready:
-    name: Linux - Send Linux Ready
+    name: Send Linux Ready
     runs-on: Linux
     needs: [get_windows_ip, build_app]
     steps:
