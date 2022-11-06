@@ -2,7 +2,7 @@ name: test-with-output
 on: push
 jobs:
 
-  windows_get_windows_ip:
+  get_windows_ip:
     name: Get Windows IP
     runs-on: Windows
     outputs:
@@ -17,7 +17,7 @@ jobs:
           name: windows_ip_address_file
           path: windows_ip_address.txt
   
-  linux_get_linux_ip:
+  get_linux_ip:
     name: Get Linux IP
     runs-on: Linux
     outputs:
@@ -28,9 +28,10 @@ jobs:
         run: |
           python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
 
-  windows_wait_linux_ready:
+  wait_linux_ready:
     name: Wait Linux Ready
     runs-on: Windows
+    needs: get_linux_ip
     steps:
       - name: Wait for Linux server to be ready
         uses: soda480/wait-for-message-action@wait-composite
@@ -39,27 +40,28 @@ jobs:
           message: "Linux server is ready"
           shell: cmd
 
-  windows_install_app:
+  install_app:
     name: Install App
     runs-on: Windows
-    needs: windows_wait_linux_ready
+    needs: wait_linux_ready
     steps:
     - name: Install App Task
       run: Start-Sleep -s 30
       shell: powershell
 
-  linux_build_app:
+  build_app:
     name: Build App
     runs-on: Linux
+    needs: get_windows_ip
     steps:
     - name: Build App Task
       run: sleep 60
       shell: bash
 
-  linux_send_linux_ready:
+  send_linux_ready:
     name: Send Linux Ready
     runs-on: Linux
-    needs: [windows_get_windows_ip, linux_build_app]
+    needs: [get_windows_ip, build_app]
     steps:
       - uses: actions/download-artifact@v3
         with:
