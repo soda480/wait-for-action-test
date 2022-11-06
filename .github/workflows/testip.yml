@@ -28,85 +28,85 @@ jobs:
       run: |
         python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
 
-  wait_linux_ready:
-    name: Windows - Wait Linux Ready
-    runs-on: Windows
-    needs: get_linux_ip
-    steps:
-    - name: Wait for Linux server to be ready
-      uses: soda480/wait-for-message-action@wait-composite
-      with:
-        port: 8080
-        message: "Linux server is ready"
-        shell: cmd
+  # wait_linux_ready:
+  #   name: Windows - Wait Linux Ready
+  #   runs-on: Windows
+  #   needs: get_linux_ip
+  #   steps:
+  #   - name: Wait for Linux server to be ready
+  #     uses: soda480/wait-for-message-action@wait-composite
+  #     with:
+  #       port: 8080
+  #       message: "Linux server is ready"
+  #       shell: cmd
 
-  install_app:
-    name: Windows - Install App
-    runs-on: Windows
-    needs: wait_linux_ready
-    steps:
-    - name: Install App Task
-      run: Start-Sleep -s 30
-      shell: powershell
+  # install_app:
+  #   name: Windows - Install App
+  #   runs-on: Windows
+  #   needs: wait_linux_ready
+  #   steps:
+  #   - name: Install App Task
+  #     run: Start-Sleep -s 30
+  #     shell: powershell
 
-  send_windows_ready:
-    name: Windows - Send Windows Ready
-    runs-on: Windows
-    needs: [get_linux_ip, install_app]
-    steps:
-    - name: Send Windows server is ready message
-      uses: soda480/wait-for-message-action@send-composite
-      with:
-        ip: ${{ needs.get_linux_ip.outputs.linux_ip }}
-        port: 8080
-        message: "Windows server is ready"
-        shell: cmd
+  # send_windows_ready:
+  #   name: Windows - Send Windows Ready
+  #   runs-on: Windows
+  #   needs: [get_linux_ip, install_app]
+  #   steps:
+  #   - name: Send Windows server is ready message
+  #     uses: soda480/wait-for-message-action@send-composite
+  #     with:
+  #       ip: ${{ needs.get_linux_ip.outputs.linux_ip }}
+  #       port: 8080
+  #       message: "Windows server is ready"
+  #       shell: cmd
 
-  build_app:
-    name: Linux - Build App
-    runs-on: Linux
-    needs: get_windows_ip
-    steps:
-    - name: Build App Task
-      run: sleep 60
-      shell: bash
+  # build_app:
+  #   name: Linux - Build App
+  #   runs-on: Linux
+  #   needs: get_windows_ip
+  #   steps:
+  #   - name: Build App Task
+  #     run: sleep 60
+  #     shell: bash
 
-  send_linux_ready:
-    name: Linux - Send Linux Ready
-    runs-on: Linux
-    needs: [get_windows_ip, build_app]
-    steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: windows_ip_address_file
-    - name: Read Windows IP
-      id: read_ip_address
-      run: |
-        cat windows_ip_address.txt >> $GITHUB_OUTPUT
-    - name: Send Linux server is ready message
-      uses: soda480/wait-for-message-action@send-composite
-      with:
-        ip: ${{ steps.read_ip_address.outputs.windows_ip }}
-        port: 8080
-        message: "Linux server is ready"
-        shell: bash
+  # send_linux_ready:
+  #   name: Linux - Send Linux Ready
+  #   runs-on: Linux
+  #   needs: [get_windows_ip, build_app]
+  #   steps:
+  #   - uses: actions/download-artifact@v3
+  #     with:
+  #       name: windows_ip_address_file
+  #   - name: Read Windows IP
+  #     id: read_ip_address
+  #     run: |
+  #       cat windows_ip_address.txt >> $GITHUB_OUTPUT
+  #   - name: Send Linux server is ready message
+  #     uses: soda480/wait-for-message-action@send-composite
+  #     with:
+  #       ip: ${{ steps.read_ip_address.outputs.windows_ip }}
+  #       port: 8080
+  #       message: "Linux server is ready"
+  #       shell: bash
 
-  wait_windows_ready:
-    name: Linux - Wait Windows Ready
-    runs-on: Linux
-    needs: send_linux_ready
-    - name: Wait for Windows server to be ready message
-      uses: soda480/wait-for-message-action@wait-composite
-      with:
-        port: 8080
-        message: "Windows server is ready"
-        shell: bash
+  # wait_windows_ready:
+  #   name: Linux - Wait Windows Ready
+  #   runs-on: Linux
+  #   needs: send_linux_ready
+  #   - name: Wait for Windows server to be ready message
+  #     uses: soda480/wait-for-message-action@wait-composite
+  #     with:
+  #       port: 8080
+  #       message: "Windows server is ready"
+  #       shell: bash
 
-  run_tests:
-    name: Linux - Run Tests
-    runs-on: Linux
-    needs: wait_windows_ready
-    steps:
-    - name: Run Tests Task
-      run: sleep 10
-      shell: bash
+  # run_tests:
+  #   name: Linux - Run Tests
+  #   runs-on: Linux
+  #   needs: wait_windows_ready
+  #   steps:
+  #   - name: Run Tests Task
+  #     run: sleep 10
+  #     shell: bash
