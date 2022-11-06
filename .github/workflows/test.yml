@@ -22,7 +22,7 @@ jobs:
             - name: Get Linux IP address
               id: linux-ip-address
               shell: bash
-              run:
+              run: |
                 python -c "import socket;print(f'ip_address2={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
                 cat $GITHUB_OUTPUT
 
@@ -31,6 +31,7 @@ jobs:
         needs: get-linux-ip-address
         steps:
             - name: Echo Linux IP
+              shell: cmd
               run:
                 echo ${{ needs.get-linux-ip-address.outputs.linux-ip-address }}
 
@@ -39,5 +40,6 @@ jobs:
         needs: get-windows-ip-address
         steps:
             - name: Echo Windows IP
+              shell: bash
               run: 
                 echo ${{ needs.get-windows-ip-address.outputs.windows-ip-address }}
