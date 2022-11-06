@@ -8,6 +8,7 @@ jobs:
         steps:
             - name: Get Windows IP
               id: get_ip
+              shell: pwsh
               run: |
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> %GITHUB_OUTPUT%
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" 
