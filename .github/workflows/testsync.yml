@@ -1,9 +1,9 @@
-name: test-with-output
+name: Test Jobs Sync
 on: push
 jobs:
 
   get_windows_ip:
-    name: Get Windows IP
+    name: W- Get Windows IP
     runs-on: Windows
     outputs:
       windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
@@ -18,7 +18,7 @@ jobs:
         path: windows_ip_address.txt
 
   get_linux_ip:
-    name: Get Linux IP
+    name: L- Get Linux IP
     runs-on: Linux
     outputs:
       linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
@@ -29,7 +29,7 @@ jobs:
         python -c "import socket;print(f'linux_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
 
   wait_linux_ready:
-    name: Wait Linux Ready
+    name: W- Wait Linux Ready
     runs-on: Windows
     needs: get_linux_ip
     steps:
@@ -42,7 +42,7 @@ jobs:
         shell: cmd
 
   install_app:
-    name: Install App
+    name: W- Install App
     runs-on: Windows
     needs: wait_linux_ready
     steps:
@@ -51,7 +51,7 @@ jobs:
       shell: powershell
 
   send_windows_ready:
-    name: Send Windows Ready
+    name: W- Send Windows Ready
     runs-on: Windows
     needs: [get_linux_ip, install_app]
     steps:
@@ -66,7 +66,7 @@ jobs:
         shell: cmd
 
   build_app:
-    name: Build App
+    name: L- Build App
     runs-on: Linux
     needs: get_windows_ip
     steps:
@@ -75,7 +75,7 @@ jobs:
       shell: bash
 
   send_linux_ready:
-    name: Send Linux Ready
+    name: L- Send Linux Ready
     runs-on: Linux
     needs: [get_windows_ip, build_app]
     steps:
@@ -97,7 +97,7 @@ jobs:
         shell: bash
 
   wait_windows_ready:
-    name: Wait Windows Ready
+    name: L- Wait Windows Ready
     runs-on: Linux
     needs: send_linux_ready
     steps:
@@ -110,7 +110,7 @@ jobs:
         shell: bash
 
   run_tests:
-    name: Run Tests
+    name: L- Run Tests
     runs-on: Linux
     needs: wait_windows_ready
     steps:
