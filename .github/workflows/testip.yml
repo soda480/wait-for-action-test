@@ -9,7 +9,7 @@ jobs:
             - name: Get Windows IP
               id: get_ip
               run: |
-                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> $GITHUB_OUTPUT
+                python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" >> %GITHUB_OUTPUT%
                 python -c "import socket;print(f'windows_ip={socket.gethostbyname(socket.gethostname())}')" 
     get_linux_ip:
         runs-on: Linux
