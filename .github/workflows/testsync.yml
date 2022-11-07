@@ -1,5 +1,5 @@
 name: Test Jobs Sync
-on: push
+on: workflow_dispatch
 jobs:
 
   get_windows_ip:
