@@ -18,6 +18,18 @@ jobs:
         name: windows_ip_address_file
         path: windows_ip_address.txt
 
+  get_linux_ip:
+    name: Get Linux IP
+    runs-on: Linux
+    outputs:
+      linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
+    steps:
+    - name: Get Linux IP
+      id: get_ip
+      run: |
+        value=$( hostname -I | awk {'print $1'} )
+        echo "linu_ip=$value" >> $GITHUB_OUTPUT
+
   show_windows_ip:
     name: Show Windows IP
     needs: get_windows_ip
@@ -34,6 +46,16 @@ jobs:
         echo $value
         echo "windows_ip=$value" >> $GITHUB_OUTPUT
   
-    - name: Echo IP Address
+    - name: Show Windows IP
       run: |
         echo "${{ steps.read_ip_address.outputs.windows_ip }}"
+
+
+  show_linux_ip:
+    name: Show Linux IP
+    needs: get_linux_ip
+    runs-on: Linux
+    steps:
+      - name: Show Linux IP
+        run: |
+          echo ${{ needs.get_linux_ip.outputs.linux_ip }}
