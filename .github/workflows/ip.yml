@@ -30,20 +30,22 @@ jobs:
         value=$( hostname -I | awk {'print $1'} )
         echo "linux_ip=$value" >> $GITHUB_OUTPUT
 
-  show_windows_ip_on_linux:
-    name: Show Windows IP on Linux
+  show_windows_ip:
+    name: Show Windows IP
     needs: get_windows_ip
     runs-on: Linux
     steps:
     - uses: actions/download-artifact@v3
       with:
         name: windows_ip_address_file
-     - name: Read Windows IP
+ 
+    - name: Read Windows IP
       id: read_ip_address
       run: |
         value=$( cat windows_ip_address.txt )
         echo $value
         echo "windows_ip=$value" >> $GITHUB_OUTPUT
+  
     - name: Show Windows IP
       run: |
         echo "${{ steps.read_ip_address.outputs.windows_ip }}"
