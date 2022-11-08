@@ -6,18 +6,18 @@ jobs:
   get_windows_ip:
     name: Get Windows IP
     runs-on: Windows
-    # outputs:
-    #   windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
+    outputs:
+      windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
     steps:
     - name: Get Windows IP
       id: get_ip
       shell: cmd
       run: |
-        python -c "import socket;a=('8.8.8.8', 80);s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM);s.connect(a);print(f'windows_ip={s.getsockname()[0]}')" >> windows_ip_address.txt
-    - uses: actions/upload-artifact@v3
-      with:
-        name: windows_ip_address_file
-        path: windows_ip_address.txt
+        python -c "import socket;a=('8.8.8.8', 80);s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM);s.connect(a);print(f'windows_ip={s.getsockname()[0]}')" >> $GITHUB_OUTPUT
+    # - uses: actions/upload-artifact@v3
+    #   with:
+    #     name: windows_ip_address_file
+    #     path: windows_ip_address.txt
 
   get_linux_ip:
     name: Get Linux IP
@@ -36,20 +36,25 @@ jobs:
     needs: get_windows_ip
     runs-on: Linux
     steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: windows_ip_address_file
+    # - uses: actions/download-artifact@v3
+    #   with:
+    #     name: windows_ip_address_file
  
-    - name: Read Windows IP
-      id: read_ip_address
-      run: |
-        value=$( cat windows_ip_address.txt )
-        echo $value
-        echo "windows_ip=$value" >> $GITHUB_OUTPUT
+    # - name: Read Windows IP
+    #   id: read_ip_address
+    #   run: |
+    #     value=$( cat windows_ip_address.txt )
+    #     echo $value
+    #     echo "windows_ip=$value" >> $GITHUB_OUTPUT
   
+    # - name: Show Windows IP
+    #   run: |
+    #     echo "${{ steps.read_ip_address.outputs.windows_ip }}"
+
     - name: Show Windows IP
       run: |
-        echo "${{ steps.read_ip_address.outputs.windows_ip }}"
+        echo "${{ needs.get_windows_ip.outputs.windows_ip }}"
+
 
   show_linux_ip_on_linux:
     name: Show Linux IP on Linux
