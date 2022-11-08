@@ -20,6 +20,7 @@ jobs:
 
   show_windows_ip:
     name: Show Windows IP
+    needs: get_windows_ip
     runs-on: Linux
     - uses: actions/download-artifact@v3
       with:
