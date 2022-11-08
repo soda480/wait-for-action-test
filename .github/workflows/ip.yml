@@ -30,7 +30,7 @@ jobs:
         value=$( hostname -I | awk {'print $1'} )
         echo "linux_ip=$value" >> $GITHUB_OUTPUT
 
-  show_windows_ip:
+  show_windows_ip_on_linux:
     name: Show Windows IP on Linux
     needs: get_windows_ip
     runs-on: Linux
