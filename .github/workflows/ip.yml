@@ -11,6 +11,7 @@ jobs:
     steps:
     - name: Get Windows IP
       id: get_ip
+      shell: cmd
       run: |
         python -c "import socket;a=('8.8.8.8', 80);s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM);s.connect(a);print(f'windows_ip={s.getsockname()[0]}')" >> windows_ip_address.txt
     - uses: actions/upload-artifact@v3
