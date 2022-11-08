@@ -1,6 +1,6 @@
 name: Test Get Windows IP
 on:
-  workflow_dispatch:
+  [push]
 jobs:
 
   get_windows_ip:
