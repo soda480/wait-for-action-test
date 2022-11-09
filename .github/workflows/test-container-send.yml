@@ -1,12 +1,14 @@
+name: Test Container Send
 on: workflow_dispatch
 jobs:
   test:
     runs-on: Linux
     steps:
-    - name: Wait for a Message
+    - name: Send for a Message
       uses: soda480/wait-for-message-action@main
       with:
-        command: "wait"
+        command: "send"
+        ip: "192.168.1.184
         port: 8080
         message: "ready to proceed"
         timeout: 60

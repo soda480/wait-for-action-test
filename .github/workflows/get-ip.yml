@@ -1,27 +1,27 @@
-name: Test Get Windows IP
-on:
-  [push]
+name: Test Get Windows IPWindows
+on: workflow_dispatch
 jobs:
-
   get_windows_ip:
     name: Get Windows IP
-    runs-on: Windows
+    runs-on: rbhe-win-02
     outputs:
       windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
     steps:
+    # - name: Get Windows IP
+    #   id: get_ip
+    #   shell: powershell
+    #   run: |
+    #     python -c "import socket;a=('8.8.8.8', 80);s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM);s.connect(a);print(f'windows_ip={s.getsockname()[0]}')" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
     - name: Get Windows IP
       id: get_ip
       shell: powershell
       run: |
-        python -c "import socket;a=('8.8.8.8', 80);s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM);s.connect(a);print(f'windows_ip={s.getsockname()[0]}')" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: windows_ip_address_file
-    #     path: windows_ip_address.txt
+        $IP = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected" }).IPv4Address.IPAddress
+        Write-Output "windows_ip=$IP" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
 
   get_linux_ip:
     name: Get Linux IP
-    runs-on: Linux
+    runs-on: rbhe-2
     outputs:
       linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
     steps:
@@ -34,32 +34,16 @@ jobs:
   show_windows_ip_on_linux:
     name: Show Windows IP on Linux
     needs: get_windows_ip
-    runs-on: Linux
+    runs-on: rbhe-2
     steps:
-    # - uses: actions/download-artifact@v3
-    #   with:
-    #     name: windows_ip_address_file
- 
-    # - name: Read Windows IP
-    #   id: read_ip_address
-    #   run: |
-    #     value=$( cat windows_ip_address.txt )
-    #     echo $value
-    #     echo "windows_ip=$value" >> $GITHUB_OUTPUT
-  
-    # - name: Show Windows IP
-    #   run: |
-    #     echo "${{ steps.read_ip_address.outputs.windows_ip }}"
-
     - name: Show Windows IP
       run: |
         echo "${{ needs.get_windows_ip.outputs.windows_ip }}"
 
-
   show_linux_ip_on_linux:
     name: Show Linux IP on Linux
     needs: get_linux_ip
-    runs-on: Linux
+    runs-on: rbhe-2
     steps:
       - name: Show Linux IP on Linux
         run: |
@@ -68,7 +52,7 @@ jobs:
   show_linux_ip_on_windows:
     name: Show Linux IP on Windows
     needs: get_linux_ip
-    runs-on: Windows
+    runs-on: rbhe-win-02
     steps:
       - name: Show Linux IP on Windows
         run: |
