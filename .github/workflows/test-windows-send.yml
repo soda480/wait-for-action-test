@@ -10,7 +10,7 @@ jobs:
         command: "send"
         ip: "192.168.1.199"
         port: 8080
-        message: "ready to proceed"
+        message: "ready to proceed:please send pizza"
         timeout: 60
         shell: cmd
     - name: Continue
