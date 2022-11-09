@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   get_windows_ip:
     name: Get Windows IP
-    runs-on: rbhe-win-02
+    runs-on: Windows
     outputs:
       windows_ip: ${{ steps.get_ip.outputs.windows_ip }}
     steps:
@@ -21,7 +21,7 @@ jobs:
 
   get_linux_ip:
     name: Get Linux IP
-    runs-on: rbhe-2
+    runs-on: Linux
     outputs:
       linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
     steps:
@@ -34,7 +34,7 @@ jobs:
   show_windows_ip_on_linux:
     name: Show Windows IP on Linux
     needs: get_windows_ip
-    runs-on: rbhe-2
+    runs-on: Linux
     steps:
     - name: Show Windows IP
       run: |
@@ -43,7 +43,7 @@ jobs:
   show_linux_ip_on_linux:
     name: Show Linux IP on Linux
     needs: get_linux_ip
-    runs-on: rbhe-2
+    runs-on: Linux
     steps:
       - name: Show Linux IP on Linux
         run: |
@@ -52,7 +52,7 @@ jobs:
   show_linux_ip_on_windows:
     name: Show Linux IP on Windows
     needs: get_linux_ip
-    runs-on: rbhe-win-02
+    runs-on: Windows
     steps:
       - name: Show Linux IP on Windows
         run: |
