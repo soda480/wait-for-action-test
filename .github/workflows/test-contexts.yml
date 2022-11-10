@@ -18,4 +18,15 @@ jobs:
         echo ${{ github.job }}
         echo ${{ runner.os }}
         echo ${{ runner.name }}
-        echo ${{ github }}
+  something_else:
+    name: Something Else
+    runs-on: Linux
+    steps:
+    - name: Print Context
+      run: |
+        echo ${{ github.run_id }}
+        echo ${{ github.run_number }}
+        echo ${{ github.run_attempt }}
+        echo ${{ github.job }}
+        echo ${{ runner.os }}
+        echo ${{ runner.name }}
