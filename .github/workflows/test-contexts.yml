@@ -1,0 +1,16 @@
+name: Test Contexts
+on: workflow_dispatch:
+jobs:
+  get_linux_ip:
+    name: Get Linux IP
+    runs-on: Linux
+    outputs:
+      linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
+    steps:
+    - name: Get Linux IP
+      id: get_ip
+      run: |
+        value=$( hostname -I | awk {'print $1'} )
+        echo "linux_ip=$value" >> $GITHUB_OUTPUT
+        echo ${{ github.run_id }}
+        echo ${{ github }}
