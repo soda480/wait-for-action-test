@@ -6,7 +6,7 @@ jobs:
     steps:
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@test
-      id: wait_message
+      id: wait
       with:
         command: "wait"
         port: 8080
