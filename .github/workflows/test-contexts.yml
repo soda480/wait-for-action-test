@@ -13,4 +13,9 @@ jobs:
         value=$( hostname -I | awk {'print $1'} )
         echo "linux_ip=$value" >> $GITHUB_OUTPUT
         echo ${{ github.run_id }}
+        echo ${{ github.run_number }}
+        echo ${{ github.run_attempt }}
+        echo ${{ github.job }}
+        echo ${{ runner.os }}
+        echo ${{ runner.name }}
         echo ${{ github }}
