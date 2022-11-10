@@ -14,4 +14,4 @@ jobs:
         timeout: 60
         use_container: true
     - name: Continue
-      run: echo "Continue running... response from wait was ${{ steps.wait.outputs.response }}"
+      run: echo "Continue running... response from wait was - ${{ steps.wait.outputs.response_container }}"
