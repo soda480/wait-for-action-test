@@ -14,4 +14,4 @@ jobs:
         timeout: 60
         shell: cmd
     - name: Continue
-      run: echo "Continue running... response from wait was ${{ steps.wait.outputs.response_windows }}"
+      run: echo "Continue running... response from wait was ${{ steps.wait.outputs.response_${{ runner.os }} }}"
