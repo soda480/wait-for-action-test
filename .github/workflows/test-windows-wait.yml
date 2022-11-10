@@ -5,7 +5,7 @@ jobs:
     runs-on: Windows
     steps:
     - name: Wait for a Message
-      uses: soda480/wait-for-message-action@main
+      uses: soda480/wait-for-message-action@test
       id: wait
       with:
         command: "wait"
