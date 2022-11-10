@@ -6,6 +6,7 @@ jobs:
     steps:
     - name: Wait for a Message
       uses: soda480/wait-for-message-action@main
+      id: wait
       with:
         command: "wait"
         port: 8080
@@ -13,4 +14,4 @@ jobs:
         timeout: 60
         shell: cmd
     - name: Continue
-      run: echo "Continue running..."
+      run: echo "Continue running... response from wait was ${{ steps.wait.outputs.response }}"
