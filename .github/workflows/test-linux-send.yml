@@ -1,4 +1,4 @@
-name: Test Container Wait
+name: Test Linux Wait
 on: workflow_dispatch
 jobs:
   test:
