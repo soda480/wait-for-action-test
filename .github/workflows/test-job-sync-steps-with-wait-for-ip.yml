@@ -11,7 +11,9 @@ jobs:
       uses: soda480/wait-for-ip-action@main
       with:
         command: "store"
-        redis_host: "192.168.1.199"
+        redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
+        redis_port: 25061
+        redis_password: ${{ secrets.REDIS_PASSWORD }}
         tag: "Windows1"
 
     - name: Wait Linux IP
@@ -19,7 +21,9 @@ jobs:
       id: get_linux_ip
       with:
         command: "wait"
-        redis_host: "192.168.1.199"
+        redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
+        redis_port: 25061
+        redis_password: ${{ secrets.REDIS_PASSWORD }}
         tag: "Linux1"
         delay: 10
         attempts: 18
@@ -58,7 +62,9 @@ jobs:
       uses: soda480/wait-for-ip-action@main
       with:
         command: "store"
-        redis_host: "192.168.1.199"
+        redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
+        redis_port: 25061
+        redis_password: ${{ secrets.REDIS_PASSWORD }}
         tag: "Linux1"
         use_container: true
     
@@ -67,7 +73,9 @@ jobs:
       id: wait
       with:
         command: "get_windows_ip"
-        redis_host: "192.168.1.199"
+        redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
+        redis_port: 25061
+        redis_password: ${{ secrets.REDIS_PASSWORD }}
         tag: "Windows1"
         delay: 10
         attempts: 18
