@@ -1,0 +1,26 @@
+name: Test wait-for-ip Store-Linux Wait-Waindows
+on: workflow_dispatch
+jobs:
+  store:
+    runs-on: Linux
+    steps:
+    - name: Sleep for a bit
+      run: sleep 60
+    - name: Store IP
+      uses: soda480/wait-for-ip-action@main
+      with:
+        command: "store"
+        redis_host: "192.168.1.199"
+        tag: "Lin001"
+  wait:
+    runs-on: Windows
+    steps:
+    - name: Wait IP
+      uses: soda480/wait-for-ip-action@main
+      with:
+        command: "wait"
+        redis_host: "192.168.1.199"
+        tag: "Lin001"
+        delay: 10
+        attempts: 18
+        shell: cmd
