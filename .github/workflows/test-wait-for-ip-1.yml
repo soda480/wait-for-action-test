@@ -1,4 +1,4 @@
-name: Test wait-for-ip
+name: Test wait-for-ip Store-Windows Wait-Linux
 on: workflow_dispatch
 jobs:
   store:
