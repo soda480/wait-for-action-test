@@ -1,0 +1,27 @@
+name: Test wait-for-ip Store-Windows Wait-Container
+on: workflow_dispatch
+jobs:
+  store:
+    runs-on: Windows
+    steps:
+    - name: Sleep for a bit
+      run: start-sleep 60
+      shell: powershell
+    - name: Store IP
+      uses: soda480/wait-for-ip-action@main
+      with:
+        command: "store"
+        redis_host: "192.168.1.199"
+        tag: "Win001"
+  wait:
+    runs-on: Linux
+    steps:
+    - name: Wait IP
+      uses: soda480/wait-for-ip-action@main
+      with:
+        command: "wait"
+        redis_host: "192.168.1.199"
+        tag: "Win001"
+        delay: 10
+        attempts: 18
+        use_container: true
