@@ -15,7 +15,7 @@ jobs:
         tag: "Win001"
         shell: cmd
   wait:
-    runs-on: Windows
+    runs-on: Linux
     steps:
     - name: Wait IP
       uses: soda480/wait-for-ip-action@main
@@ -25,4 +25,3 @@ jobs:
         tag: "Win001"
         delay: 10
         attempts: 18
-        shell: cmd
