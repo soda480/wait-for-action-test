@@ -16,6 +16,7 @@ jobs:
 
     - name: Wait Linux IP
       uses: soda480/wait-for-ip-action@main
+      id: get_linux_ip
       with:
         command: "wait"
         redis_host: "192.168.1.199"
@@ -41,7 +42,7 @@ jobs:
       uses: soda480/wait-for-message-action@main
       with:
         command: "send"
-        ip: ${{ needs.get_linux_ip.outputs.linux_ip }}
+        ip: ${{ steps.get_linux_ip.outputs.response_windows }}
         port: 8080
         delay: 5
         attempts: 12
@@ -63,8 +64,9 @@ jobs:
     
     - name: Wait Windows IP
       uses: soda480/wait-for-ip-action@main
+      id: wait
       with:
-        command: "wait"
+        command: "get_windows_ip"
         redis_host: "192.168.1.199"
         tag: "Windows1"
         delay: 10
@@ -79,7 +81,7 @@ jobs:
       uses: soda480/wait-for-message-action@main
       with:
         command: "send"
-        ip: ${{ needs.get_windows_ip.outputs.windows_ip }}
+        ip: ${{ steps.get_windows_ip.outputs.response_container }}
         port: 8080
         delay: 10
         attempts: 10
