@@ -4,24 +4,27 @@ jobs:
   store:
     runs-on: Windows
     steps:
-    - name: Sleep for a bit
+    - name: On Windows - Sleep for a bit
       run: start-sleep 60
       shell: powershell
-    - name: Store IP
+    - name: On Windows - Store IP
       uses: soda480/wait-for-ip-action@main
       with:
         command: "store"
         redis_host: "192.168.1.199"
         tag: "Win001"
-        shell: cmd
   wait:
     runs-on: Linux
     steps:
-    - name: Wait IP
+    - name: On Linux - Wait for Windows IP
       uses: soda480/wait-for-ip-action@main
+      id: get_windows_ip
       with:
         command: "wait"
         redis_host: "192.168.1.199"
         tag: "Win001"
         delay: 10
         attempts: 18
+    - name: On Linux - Show Windows IP
+      run: |
+        echo "The Linux IP address is: ${{ steps.get_windows_ip.outputs.response_linux }}"
