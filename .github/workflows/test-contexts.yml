@@ -10,6 +10,8 @@ jobs:
     - name: Get Linux IP
       id: get_ip
       run: |
+        hostname=$( hostname )
+        echo "hostname: $hostname"
         value=$( hostname -I | awk {'print $1'} )
         echo "linux_ip=$value" >> $GITHUB_OUTPUT
         echo "github.run_id: ${{ github.run_id }}"
@@ -29,5 +31,4 @@ jobs:
         echo "github.run_attempt: ${{ github.run_attempt }}"
         echo "runner.job: ${{ github.job }}"
         echo "runner.os: ${{ runner.os }}"
-        echo "runner.name: ${{ runner.name }}"
         echo "runner.name: ${{ runner.name }}"
