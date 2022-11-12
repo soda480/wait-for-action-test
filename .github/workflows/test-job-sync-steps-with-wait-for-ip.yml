@@ -77,9 +77,10 @@ jobs:
       id: get_windows_ip
       with:
         command: "wait"
-        redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
-        redis_port: 25061
-        redis_password: ${{ secrets.REDIS_PASSWORD }}
+        redis_host: "192.168.1.199"
+        # redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
+        # redis_port: 25061
+        # redis_password: ${{ secrets.REDIS_PASSWORD }}
         tag: "Windows1"
         delay: 10
         attempts: 18
