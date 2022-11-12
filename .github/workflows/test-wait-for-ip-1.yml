@@ -27,4 +27,4 @@ jobs:
         attempts: 18
     - name: On Linux - Show Windows IP
       run: |
-        echo "The Linux IP address is: ${{ steps.get_windows_ip.outputs.response_linux }}"
+        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_linux }}"
