@@ -115,5 +115,5 @@ jobs:
         use_container: true
   
     - name: Run Tests Task
-      run: sleep ${{ steps.wait.outputs.response_container }}"
+      run: sleep ${{ steps.wait.outputs.response_container }}
       shell: bash
