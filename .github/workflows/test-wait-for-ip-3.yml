@@ -25,6 +25,7 @@ jobs:
         tag: "Lin001"
         delay: 10
         attempts: 18
+        shell: cmd
     - name: On Windows - Show Linux IP
       run: |
         echo "The Linux IP address is: ${{ steps.get_linux_ip.outputs.response_windows }}"
