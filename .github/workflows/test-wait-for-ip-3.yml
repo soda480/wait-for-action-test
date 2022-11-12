@@ -4,9 +4,9 @@ jobs:
   store:
     runs-on: Linux
     steps:
-    - name: On Linux - Sleep for a bit
-      run: sleep 60
-    - name: On Linux - Store Linux IP
+    - name: On Linux Container - Sleep for a bit
+      run: sleep 30
+    - name: On Linux Container - Store Linux IP
       uses: soda480/wait-for-ip-action@main
       with:
         command: "store"
@@ -28,4 +28,4 @@ jobs:
         shell: cmd
     - name: On Windows - Show Linux IP
       run: |
-        echo "The Linux IP address is: ${{ steps.get_linux_ip.outputs.response_windows }}"
+        echo "The Linux IP address is: ${{ steps.get_linux_ip.outputs.response_from_windows }}"
