@@ -28,4 +28,4 @@ jobs:
         attempts: 18
     - name: On Linux - Show Windows IP
       run: |
-        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_linux }}"
+        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_from_linux }}"
