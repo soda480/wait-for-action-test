@@ -18,7 +18,7 @@ jobs:
     steps:
     - name: On Linux - Wait Windows IP
       uses: soda480/wait-for-ip-action@main
-      id: wait
+      id: get_windows_ip
       with:
         command: "wait"
         redis_host: "192.168.1.199"
@@ -28,4 +28,4 @@ jobs:
         use_container: true
     - name: Show Windows IP
       run: |
-        echo "The Windows IP address is: ${{ steps.wait.outputs.response_container }}"
+        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_container }}"
