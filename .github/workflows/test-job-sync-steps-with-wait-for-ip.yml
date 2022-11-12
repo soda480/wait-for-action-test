@@ -34,6 +34,7 @@ jobs:
 
     - name: Wait for Linux server to be ready
       uses: soda480/wait-for-message-action@main
+      id: "wait"
       with:
         command: "wait"
         port: 8080
@@ -42,7 +43,7 @@ jobs:
         shell: cmd
 
     - name: Install App Task
-      run: Start-Sleep -s 30
+      run: Start-Sleep -s ${{ steps.wait.outputs.response_windows }}
       shell: powershell
 
     - name: Send Windows server is ready message
@@ -53,7 +54,7 @@ jobs:
         port: 8080
         delay: 5
         attempts: 12
-        message: "Windows server is ready"
+        message: "Windows server is ready:10"
         shell: cmd
 
   linux_workflow:
@@ -98,12 +99,13 @@ jobs:
         port: 8080
         delay: 10
         attempts: 10
-        message: "Linux server is ready"
+        message: "Linux server is ready:30"
         shell: bash
         use_container: true
   
     - name: Wait for Windows server to be ready message
       uses: soda480/wait-for-message-action@main
+      id: "wait"
       with:
         command: "wait"
         port: 8080
@@ -113,5 +115,5 @@ jobs:
         use_container: true
   
     - name: Run Tests Task
-      run: sleep 10
+      run: sleep ${{ steps.wait.outputs.response_container }}"
       shell: bash
