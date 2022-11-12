@@ -27,4 +27,4 @@ jobs:
         shell: cmd
     - name: On Windows - Show Linux IP
       run: |
-        echo "The Linux IP address is: ${{ steps.get_linux_ip.outputs.response_windows }}"
+        echo "The Linux IP address is: ${{ steps.get_linux_ip.outputs.response_from_windows }}"
