@@ -5,7 +5,7 @@ jobs:
     runs-on: Windows
     steps:
     - name: On Windows - Sleep for a bit
-      run: start-sleep 60
+      run: start-sleep 30
       shell: powershell
     - name: On Windows - Store Windows IP
       uses: soda480/wait-for-ip-action@main
@@ -17,7 +17,7 @@ jobs:
   wait:
     runs-on: Linux
     steps:
-    - name: On Linux - Wait Windows IP
+    - name: On Linux Container - Wait Windows IP
       uses: soda480/wait-for-ip-action@main
       id: get_windows_ip
       with:
@@ -27,6 +27,6 @@ jobs:
         delay: 10
         attempts: 18
         use_container: true
-    - name: Show Windows IP
+    - name: On Linux - Show Windows IP
       run: |
-        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_container }}"
+        echo "The Windows IP address is: ${{ steps.get_windows_ip.outputs.response_from_container }}"
