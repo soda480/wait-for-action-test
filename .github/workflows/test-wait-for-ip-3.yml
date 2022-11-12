@@ -4,7 +4,7 @@ jobs:
   store:
     runs-on: Linux
     steps:
-    - name: On Linux Container - Sleep for a bit
+    - name: On Linux - Sleep for a bit
       run: sleep 30
     - name: On Linux Container - Store Linux IP
       uses: soda480/wait-for-ip-action@main
