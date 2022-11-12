@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   get_linux_ip:
     name: Get Linux IP
-    runs-on: Linux
+    runs-on: ubuntu-latest # Linux
     outputs:
       linux_ip: ${{ steps.get_ip.outputs.linux_ip }}
     steps:
@@ -20,7 +20,7 @@ jobs:
         echo "runner.name: ${{ runner.name }}"
   something_else:
     name: Something Else
-    runs-on: Linux
+    runs-on: ubuntu-latest # Linux
     steps:
     - name: Print Context
       run: |
@@ -29,4 +29,5 @@ jobs:
         echo "github.run_attempt: ${{ github.run_attempt }}"
         echo "runner.job: ${{ github.job }}"
         echo "runner.os: ${{ runner.os }}"
+        echo "runner.name: ${{ runner.name }}"
         echo "runner.name: ${{ runner.name }}"
