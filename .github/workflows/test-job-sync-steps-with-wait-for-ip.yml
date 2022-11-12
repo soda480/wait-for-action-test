@@ -27,7 +27,6 @@ jobs:
         tag: "Linux1"
         delay: 10
         attempts: 18
-        shell: cmd
 
     - name: Wait for Linux server to be ready
       uses: soda480/wait-for-message-action@main
@@ -70,7 +69,7 @@ jobs:
     
     - name: Wait Windows IP
       uses: soda480/wait-for-ip-action@main
-      id: wait
+      id: get_windows_ip
       with:
         command: "get_windows_ip"
         redis_host: "db-redis-sfo2-44676-do-user-5080416-0.b.db.ondigitalocean.com"
